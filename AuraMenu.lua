@@ -1,23 +1,23 @@
 __AuraFixUtil = __AuraFixUtil or {}
-local Players = game:GetService("Players")
-local TS = game:GetService("TweenService")
-local UIS = game:GetService("UserInputService")
-local RS = game:GetService("RunService")
-local SoundService = game:GetService("SoundService")
-local MPS = game:GetService("MarketplaceService")
-local Lighting = game:GetService("Lighting")
-local HttpService = game:GetService("HttpService")
-local GuiService = game:GetService("GuiService")
-local TextService = game:GetService("TextService")
-local TeleportService = game:GetService("TeleportService")
-local Stats = game:GetService("Stats")
-local okVU, VU = pcall(game.GetService,
+      Players = game:GetService("Players")
+      TS = game:GetService("TweenService")
+      UIS = game:GetService("UserInputService")
+      RS = game:GetService("RunService")
+      SoundService = game:GetService("SoundService")
+      MPS = game:GetService("MarketplaceService")
+      Lighting = game:GetService("Lighting")
+      HttpService = game:GetService("HttpService")
+      GuiService = game:GetService("GuiService")
+      TextService = game:GetService("TextService")
+      TeleportService = game:GetService("TeleportService")
+      Stats = game:GetService("Stats")
+      okVU, VU = pcall(game.GetService,
     game,
     "VirtualUser")
 
-local lp = Players.LocalPlayer
-local pgui = lp:WaitForChild("PlayerGui")
-local genv = (getgenv and getgenv()) or _G
+      lp = Players.LocalPlayer
+      pgui = lp:WaitForChild("PlayerGui")
+      genv = (getgenv and getgenv()) or _G
 if genv.AuraUnload then pcall(genv.AuraUnload) end
 if pgui:FindFirstChild("AuraMenu") then pgui.AuraMenu:Destroy() end
 if SoundService:FindFirstChild("AuraSound") then SoundService.AuraSound:Destroy() end
@@ -28,19 +28,19 @@ for _, v in ipairs(Lighting:GetChildren()) do
         pcall(function() v:Destroy() end)
     end
 end
-local oldAuraClouds = workspace:FindFirstChildOfClass("Terrain") and workspace.Terrain:FindFirstChild("AuraEnvClouds")
+      oldAuraClouds = workspace:FindFirstChildOfClass("Terrain") and workspace.Terrain:FindFirstChild("AuraEnvClouds")
 if oldAuraClouds then pcall(function() oldAuraClouds:Destroy() end) end
-local oldAuraAmbient = workspace:FindFirstChild("AuraAmbientFX")
+      oldAuraAmbient = workspace:FindFirstChild("AuraAmbientFX")
 if oldAuraAmbient then pcall(function() oldAuraAmbient:Destroy() end) end
 
-local WIN_W, WIN_H, TOP, SB = 420, 270, 36, 96
-local EASE, DIR = Enum.EasingStyle, Enum.EasingDirection
+      WIN_W, WIN_H, TOP, SB = 420, 270, 36, 96
+      EASE, DIR = Enum.EasingStyle, Enum.EasingDirection
 -- Global motion preferences are read after config load and used by every UI tween.
-local motionEnabled, motionSpeed = true, 1
-local WHITE = Color3.new(1,
+      motionEnabled, motionSpeed = true, 1
+      WHITE = Color3.new(1,
     1,
     1)
-local C = {
+      C = {
 	bg = Color3.fromRGB(13,
 	    13,
 	    20),
@@ -81,18 +81,18 @@ local C = {
 	    180,
 	    255),
 }
-local accent = Color3.fromRGB(130,
+      accent = Color3.fromRGB(130,
     100,
     255)
-local reg, conns, trReg, ctl = {}, {}, {}, {}
-local cornerRegistry = setmetatable({}, {__mode = "k"})
-local strokeRegistry = setmetatable({}, {__mode = "k"})
-local cornerScale, strokeScale = 1, 1
-local rainbow, hue = false, 0
-local lang = "Русский"
-local cfg = {}
+      reg, conns, trReg, ctl = {}, {}, {}, {}
+      cornerRegistry = setmetatable({}, {__mode = "k"})
+      strokeRegistry = setmetatable({}, {__mode = "k"})
+      cornerScale, strokeScale = 1, 1
+      rainbow, hue = false, 0
+      lang = "Русский"
+      cfg = {}
 
-local EN = {
+      EN = {
 	["Музыка"] = "Music",
 	    ["Эффекты"] = "Effects",
 	    ["Визуал"] = "Visuals",
@@ -332,7 +332,7 @@ local EN = {
 
 -- Spanish localization: any legacy key not listed here falls back to English,
 -- so the interface never abruptly switches back to Russian while Español is active.
-local ES = {
+      ES = {
     ["Музыка"]="Música",
         ["Эффекты"]="Efectos",
         ["Визуал"]="Visuales",
@@ -568,19 +568,19 @@ local ES = {
         ["ESP"]="ESP",
 }
 
-local function T(s)
+      function T(s)
     if lang == "English" then return EN[s] or s end
     if lang == "Español" then return ES[s] or EN[s] or s end
     return s
 end
 
-local function bind(o, s, prop)
+      function bind(o, s, prop)
 	prop = prop or "Text"
 	o[prop] = T(s)
 	trReg[#trReg + 1] = function() o[prop] = T(s) end
 end
 
-local function setLang(i)
+      function setLang(i)
 	lang = i == 2 and "English" or (i == 3 and "Español" or "Русский")
 	cfg.lang = i
     pcall(__AuraFixUtil.saveCfg)
@@ -588,7 +588,7 @@ local function setLang(i)
 	for _, o in pairs(ctl) do if o.Refresh then o.Refresh() end end
 end
 
-local function cn(sig, fn)
+      function cn(sig, fn)
 	local c = sig:Connect(fn)
 	conns[#conns + 1] = c
 	return c
@@ -630,9 +630,9 @@ function __AuraFix_tw(o,
 	tween:Play()
 	return tween
 end
-local tw = __AuraFix_tw
+      tw = __AuraFix_tw
 
-local lo = 0
+      lo = 0
 function __AuraFixUtil.new(class,
     props,
     parent)
@@ -710,8 +710,8 @@ function __AuraFixUtil.shift(c)
 	    s,
 	    v)
 end
-local motionLoopRegistry = {}
-local function createMotionLoop(record)
+      motionLoopRegistry = {}
+      function createMotionLoop(record)
     if not record or not record.object or not record.object.Parent or not motionEnabled then return end
     local speed = math.clamp(tonumber(motionSpeed) or 1, .5, 1.5)
     local duration = math.max(.15, record.duration / speed)
@@ -863,7 +863,7 @@ function __AuraFixUtil.press(b,
 	    EASE.Back) end end)
 end
 
-local CFG_FILE = "AuraMenu.json"
+      CFG_FILE = "AuraMenu.json"
 function __AuraFixUtil.loadCfg()
 	local ok, data = pcall(function() return HttpService:JSONDecode(readfile(CFG_FILE)) end)
 	if ok and type(data) == "table" then cfg = data return true end
@@ -873,8 +873,8 @@ function __AuraFixUtil.saveCfg()
 	return pcall(function() writefile(CFG_FILE,
 	    HttpService:JSONEncode(cfg)) end)
 end
-local autoSaveEnabled = false
-local autoSaveRevision = 0
+      autoSaveEnabled = false
+      autoSaveRevision = 0
 function __AuraFixUtil.queueCfgSave()
     if not autoSaveEnabled then return end
     autoSaveRevision += 1
@@ -891,14 +891,14 @@ motionEnabled = cfg.motionEnabled ~= false
 motionSpeed = math.clamp(tonumber(cfg.motionSpeedPct) and (tonumber(cfg.motionSpeedPct) / 100) or tonumber(cfg.motionSpeed) or 1, .5, 1.5)
 cornerScale = math.clamp((tonumber(cfg.cornerScalePct) or 100) / 100, .5, 1.5)
 strokeScale = math.clamp((tonumber(cfg.strokeScalePct) or 100) / 100, .5, 1.8)
-local toastEnabled = cfg.toastEnabled ~= false
+      toastEnabled = cfg.toastEnabled ~= false
 if type(cfg.accent) == "table" and cfg.accent[3] then accent = Color3.new(cfg.accent[1],
     cfg.accent[2],
     cfg.accent[3]) end
 rainbow = cfg.rainbow == true
 lang = cfg.lang == 2 and "English" or (cfg.lang == 3 and "Español" or "Русский")
 
-local gui = __AuraFixUtil.new("ScreenGui",
+      gui = __AuraFixUtil.new("ScreenGui",
     {Name = "AuraMenu",
     ResetOnSpawn = false,
     IgnoreGuiInset = true,
@@ -907,20 +907,20 @@ local gui = __AuraFixUtil.new("ScreenGui",
     pgui)
 
 -- Fixed dark palette; accent color remains user-adjustable in Settings.
-local blur = __AuraFixUtil.new("BlurEffect",
+      blur = __AuraFixUtil.new("BlurEffect",
     {Name = "AuraBlur",
     Size = 0},
     Lighting)
-local blurOn = cfg.blur ~= false
-local blurStrength = math.clamp(tonumber(cfg.blurStrength) or 13, 0, 20)
-local skelLayer = __AuraFixUtil.new("Frame",
+      blurOn = cfg.blur ~= false
+      blurStrength = math.clamp(tonumber(cfg.blurStrength) or 13, 0, 20)
+      skelLayer = __AuraFixUtil.new("Frame",
     {Name = "ESP",
     BackgroundTransparency = 1,
     Size = UDim2.fromScale(1,
     1)},
     gui)
 
-local toastF, toastToken = nil, 0
+      toastF, toastToken = nil, 0
 function __AuraFixUtil.toast(message,
     col)
     if not toastEnabled then return end
@@ -1083,25 +1083,25 @@ function __AuraFixUtil.drag(handle,
 	return st
 end
 
-local cam0 = workspace.CurrentCamera
-local vp = cam0 and cam0.ViewportSize or Vector2.new(800,
+      cam0 = workspace.CurrentCamera
+      vp = cam0 and cam0.ViewportSize or Vector2.new(800,
     400)
 if vp.Y < 150 then vp = Vector2.new(800,
     400) end
-local fitScale = math.clamp(math.min((vp.Y - 40) / WIN_H,
+      fitScale = math.clamp(math.min((vp.Y - 40) / WIN_H,
     (vp.X - 16) / WIN_W),
     .52,
     1)
-local baseScale = cfg.size ~= nil and math.clamp((tonumber(cfg.size) or 100) / 100, .52, 1.30) or fitScale
-local baseGT, opened, openTok = math.clamp((tonumber(cfg.gt) or 0) / 100, 0, .5), false, 0
-local openAnimationStyle = math.clamp(math.floor(tonumber(cfg.openAnimationStyle) or 1), 1, 3)
-local startPos = UDim2.new(.5,
+      baseScale = cfg.size ~= nil and math.clamp((tonumber(cfg.size) or 100) / 100, .52, 1.30) or fitScale
+      baseGT, opened, openTok = math.clamp((tonumber(cfg.gt) or 0) / 100, 0, .5), false, 0
+      openAnimationStyle = math.clamp(math.floor(tonumber(cfg.openAnimationStyle) or 1), 1, 3)
+      startPos = UDim2.new(.5,
     0,
     0,
     math.max(6,
     (vp.Y - WIN_H * baseScale) / 2))
 
-local holder = __AuraFixUtil.new("Frame",
+      holder = __AuraFixUtil.new("Frame",
     {Name = "Holder",
     Size = UDim2.fromOffset(WIN_W,
     WIN_H),
@@ -1110,7 +1110,7 @@ local holder = __AuraFixUtil.new("Frame",
     Position = startPos,
     BackgroundTransparency = 1},
     gui)
-local main = __AuraFixUtil.new("CanvasGroup",
+      main = __AuraFixUtil.new("CanvasGroup",
     {Name = "MainWindow",
     AnchorPoint = Vector2.new(.5,
     0),
@@ -1125,10 +1125,10 @@ local main = __AuraFixUtil.new("CanvasGroup",
     holder)
 __AuraFixUtil.round(main,
     12)
-local mscale = __AuraFixUtil.new("UIScale",
+      mscale = __AuraFixUtil.new("UIScale",
     {Scale = baseScale},
     main)
-local mstroke = __AuraFixUtil.stroke(main,
+      mstroke = __AuraFixUtil.stroke(main,
     2,
     WHITE,
     .15)
@@ -1142,7 +1142,7 @@ __AuraFixUtil.loop(__AuraFixUtil.grad(mstroke,
     {Rotation = 360},
     5)
 
-local tint = __AuraFixUtil.new("Frame",
+      tint = __AuraFixUtil.new("Frame",
     {Size = UDim2.fromScale(1,
     1)},
     main)
@@ -1157,7 +1157,7 @@ __AuraFixUtil.new("UIGradient",
     tint)
 
 for k = 1, 2 do
-	local o = __AuraFixUtil.new("Frame",
+	      o = __AuraFixUtil.new("Frame",
 	    {AnchorPoint = Vector2.new(.5,
 	    .5),
 	    Size = UDim2.fromOffset(220,
@@ -1175,10 +1175,10 @@ for k = 1, 2 do
 end
 
 for _ = 1, 14 do
-	local sz, d = math.random(3,
+	      sz, d = math.random(3,
 	    6), math.random(60,
 	    120) / 10
-	local pt = __AuraFixUtil.new("Frame",
+	      pt = __AuraFixUtil.new("Frame",
 	    {BackgroundTransparency = .9,
 	    Size = UDim2.fromOffset(sz,
 	    sz),
@@ -1196,9 +1196,9 @@ for _ = 1, 14 do
         {BackgroundTransparency = .55}, EASE.Sine, DIR.InOut, -1, true)
 end
 
-local __AuraFix_BackdropStrength = math.clamp(tonumber(cfg.backdropStrength) or 82, 0, 100)
-local __AuraFix_BackdropVisible = cfg.backdropVisible ~= false
-local __AuraFix_BackdropLayer = __AuraFixUtil.new("CanvasGroup",
+      __AuraFix_BackdropStrength = math.clamp(tonumber(cfg.backdropStrength) or 82, 0, 100)
+      __AuraFix_BackdropVisible = cfg.backdropVisible ~= false
+      __AuraFix_BackdropLayer = __AuraFixUtil.new("CanvasGroup",
     {Name = "AuraAuroraDetailLayer",
     AnchorPoint = Vector2.new(0, 0),
     Position = UDim2.fromScale(0, 0),
@@ -1240,7 +1240,7 @@ function __AuraFixUtil.setBackdropStrength(value)
     end
 end
 do
-    local ribbon = __AuraFixUtil.new("Frame",
+          ribbon = __AuraFixUtil.new("Frame",
         {Name = "AuroraRibbon01",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.160, 0.180),
@@ -1252,7 +1252,7 @@ do
         ZIndex = 1},
         __AuraFix_BackdropLayer)
     __AuraFixUtil.round(ribbon, 17)
-    local gradient = __AuraFixUtil.grad(ribbon,
+          gradient = __AuraFixUtil.grad(ribbon,
         function() return ColorSequence.new(accent, C.softBlue) end,
         {Rotation = 29,
         Transparency = NumberSequence.new({
@@ -1273,7 +1273,7 @@ do
 end
 
 do
-    local ribbon = __AuraFixUtil.new("Frame",
+          ribbon = __AuraFixUtil.new("Frame",
         {Name = "AuroraRibbon02",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.810, 0.230),
@@ -1285,7 +1285,7 @@ do
         ZIndex = 1},
         __AuraFix_BackdropLayer)
     __AuraFixUtil.round(ribbon, 22)
-    local gradient = __AuraFixUtil.grad(ribbon,
+          gradient = __AuraFixUtil.grad(ribbon,
         function() return ColorSequence.new(C.softBlue, __AuraFixUtil.light(accent)) end,
         {Rotation = 58,
         Transparency = NumberSequence.new({
@@ -1306,7 +1306,7 @@ do
 end
 
 do
-    local ribbon = __AuraFixUtil.new("Frame",
+          ribbon = __AuraFixUtil.new("Frame",
         {Name = "AuroraRibbon03",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.450, 0.390),
@@ -1318,7 +1318,7 @@ do
         ZIndex = 1},
         __AuraFix_BackdropLayer)
     __AuraFixUtil.round(ribbon, 26)
-    local gradient = __AuraFixUtil.grad(ribbon,
+          gradient = __AuraFixUtil.grad(ribbon,
         function() return ColorSequence.new(accent, C.softBlue) end,
         {Rotation = 87,
         Transparency = NumberSequence.new({
@@ -1339,7 +1339,7 @@ do
 end
 
 do
-    local ribbon = __AuraFixUtil.new("Frame",
+          ribbon = __AuraFixUtil.new("Frame",
         {Name = "AuroraRibbon04",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.120, 0.610),
@@ -1351,7 +1351,7 @@ do
         ZIndex = 1},
         __AuraFix_BackdropLayer)
     __AuraFixUtil.round(ribbon, 13)
-    local gradient = __AuraFixUtil.grad(ribbon,
+          gradient = __AuraFixUtil.grad(ribbon,
         function() return ColorSequence.new(C.softBlue, __AuraFixUtil.light(accent)) end,
         {Rotation = 116,
         Transparency = NumberSequence.new({
@@ -1372,7 +1372,7 @@ do
 end
 
 do
-    local ribbon = __AuraFixUtil.new("Frame",
+          ribbon = __AuraFixUtil.new("Frame",
         {Name = "AuroraRibbon05",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.860, 0.730),
@@ -1384,7 +1384,7 @@ do
         ZIndex = 1},
         __AuraFix_BackdropLayer)
     __AuraFixUtil.round(ribbon, 17)
-    local gradient = __AuraFixUtil.grad(ribbon,
+          gradient = __AuraFixUtil.grad(ribbon,
         function() return ColorSequence.new(accent, C.softBlue) end,
         {Rotation = 145,
         Transparency = NumberSequence.new({
@@ -1405,7 +1405,7 @@ do
 end
 
 do
-    local ribbon = __AuraFixUtil.new("Frame",
+          ribbon = __AuraFixUtil.new("Frame",
         {Name = "AuroraRibbon06",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.420, 0.880),
@@ -1417,7 +1417,7 @@ do
         ZIndex = 1},
         __AuraFix_BackdropLayer)
     __AuraFixUtil.round(ribbon, 22)
-    local gradient = __AuraFixUtil.grad(ribbon,
+          gradient = __AuraFixUtil.grad(ribbon,
         function() return ColorSequence.new(C.softBlue, __AuraFixUtil.light(accent)) end,
         {Rotation = 174,
         Transparency = NumberSequence.new({
@@ -1438,7 +1438,7 @@ do
 end
 
 do
-    local ribbon = __AuraFixUtil.new("Frame",
+          ribbon = __AuraFixUtil.new("Frame",
         {Name = "AuroraRibbon07",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.620, 0.120),
@@ -1450,7 +1450,7 @@ do
         ZIndex = 1},
         __AuraFix_BackdropLayer)
     __AuraFixUtil.round(ribbon, 26)
-    local gradient = __AuraFixUtil.grad(ribbon,
+          gradient = __AuraFixUtil.grad(ribbon,
         function() return ColorSequence.new(accent, C.softBlue) end,
         {Rotation = 203,
         Transparency = NumberSequence.new({
@@ -1471,7 +1471,7 @@ do
 end
 
 do
-    local ribbon = __AuraFixUtil.new("Frame",
+          ribbon = __AuraFixUtil.new("Frame",
         {Name = "AuroraRibbon08",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.270, 0.780),
@@ -1483,7 +1483,7 @@ do
         ZIndex = 1},
         __AuraFix_BackdropLayer)
     __AuraFixUtil.round(ribbon, 13)
-    local gradient = __AuraFixUtil.grad(ribbon,
+          gradient = __AuraFixUtil.grad(ribbon,
         function() return ColorSequence.new(C.softBlue, __AuraFixUtil.light(accent)) end,
         {Rotation = 232,
         Transparency = NumberSequence.new({
@@ -1504,7 +1504,7 @@ do
 end
 
 do
-    local glow = __AuraFixUtil.new("Frame",
+          glow = __AuraFixUtil.new("Frame",
         {Name = "AuroraBloom01",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.080, 0.120),
@@ -1534,7 +1534,7 @@ do
 end
 
 do
-    local glow = __AuraFixUtil.new("Frame",
+          glow = __AuraFixUtil.new("Frame",
         {Name = "AuroraBloom02",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.910, 0.180),
@@ -1564,7 +1564,7 @@ do
 end
 
 do
-    local glow = __AuraFixUtil.new("Frame",
+          glow = __AuraFixUtil.new("Frame",
         {Name = "AuroraBloom03",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.220, 0.360),
@@ -1594,7 +1594,7 @@ do
 end
 
 do
-    local glow = __AuraFixUtil.new("Frame",
+          glow = __AuraFixUtil.new("Frame",
         {Name = "AuroraBloom04",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.780, 0.450),
@@ -1624,7 +1624,7 @@ do
 end
 
 do
-    local glow = __AuraFixUtil.new("Frame",
+          glow = __AuraFixUtil.new("Frame",
         {Name = "AuroraBloom05",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.100, 0.820),
@@ -1654,7 +1654,7 @@ do
 end
 
 do
-    local glow = __AuraFixUtil.new("Frame",
+          glow = __AuraFixUtil.new("Frame",
         {Name = "AuroraBloom06",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.900, 0.880),
@@ -1684,7 +1684,7 @@ do
 end
 
 do
-    local glow = __AuraFixUtil.new("Frame",
+          glow = __AuraFixUtil.new("Frame",
         {Name = "AuroraBloom07",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.550, 0.240),
@@ -1714,7 +1714,7 @@ do
 end
 
 do
-    local glow = __AuraFixUtil.new("Frame",
+          glow = __AuraFixUtil.new("Frame",
         {Name = "AuroraBloom08",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.480, 0.770),
@@ -1744,7 +1744,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline01",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.230, 0.095),
@@ -1775,7 +1775,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline02",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.700, 0.120),
@@ -1806,7 +1806,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline03",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.090, 0.280),
@@ -1837,7 +1837,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline04",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.940, 0.340),
@@ -1868,7 +1868,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline05",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.180, 0.490),
@@ -1899,7 +1899,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline06",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.790, 0.550),
@@ -1930,7 +1930,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline07",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.060, 0.690),
@@ -1961,7 +1961,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline08",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.950, 0.670),
@@ -1992,7 +1992,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline09",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.310, 0.910),
@@ -2023,7 +2023,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline10",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.620, 0.860),
@@ -2054,7 +2054,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline11",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.480, 0.070),
@@ -2085,7 +2085,7 @@ do
 end
 
 do
-    local hairline = __AuraFixUtil.new("Frame",
+          hairline = __AuraFixUtil.new("Frame",
         {Name = "AuraHairline12",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.520, 0.960),
@@ -2116,7 +2116,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer01",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.410, 0.350),
@@ -2147,7 +2147,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer02",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.780, 0.580),
@@ -2178,7 +2178,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer03",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.240, 0.810),
@@ -2209,7 +2209,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer04",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.610, 0.160),
@@ -2240,7 +2240,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer05",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.070, 0.390),
@@ -2271,7 +2271,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer06",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.440, 0.620),
@@ -2302,7 +2302,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer07",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.810, 0.850),
@@ -2333,7 +2333,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer08",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.270, 0.200),
@@ -2364,7 +2364,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer09",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.640, 0.430),
@@ -2395,7 +2395,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer10",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.100, 0.660),
@@ -2426,7 +2426,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer11",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.470, 0.890),
@@ -2457,7 +2457,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer12",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.840, 0.240),
@@ -2488,7 +2488,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer13",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.300, 0.470),
@@ -2519,7 +2519,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer14",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.670, 0.700),
@@ -2550,7 +2550,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer15",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.130, 0.050),
@@ -2581,7 +2581,7 @@ do
 end
 
 do
-    local shimmer = __AuraFixUtil.new("Frame",
+          shimmer = __AuraFixUtil.new("Frame",
         {Name = "AuraShimmer16",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.500, 0.280),
@@ -2612,7 +2612,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust01",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.370, 0.460),
@@ -2636,7 +2636,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust02",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.660, 0.770),
@@ -2660,7 +2660,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust03",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.950, 0.180),
@@ -2684,7 +2684,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust04",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.300, 0.490),
@@ -2708,7 +2708,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust05",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.590, 0.800),
@@ -2732,7 +2732,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust06",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.880, 0.210),
@@ -2756,7 +2756,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust07",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.230, 0.520),
@@ -2780,7 +2780,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust08",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.520, 0.830),
@@ -2804,7 +2804,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust09",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.810, 0.240),
@@ -2828,7 +2828,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust10",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.160, 0.550),
@@ -2852,7 +2852,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust11",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.450, 0.860),
@@ -2876,7 +2876,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust12",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.740, 0.270),
@@ -2900,7 +2900,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust13",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.090, 0.580),
@@ -2924,7 +2924,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust14",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.380, 0.890),
@@ -2948,7 +2948,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust15",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.670, 0.300),
@@ -2972,7 +2972,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust16",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.960, 0.610),
@@ -2996,7 +2996,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust17",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.310, 0.920),
@@ -3020,7 +3020,7 @@ do
 end
 
 do
-    local particle = __AuraFixUtil.new("Frame",
+          particle = __AuraFixUtil.new("Frame",
         {Name = "AuraDust18",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.600, 0.330),
@@ -3044,7 +3044,7 @@ do
 end
 
 do
-    local cornerGlow = __AuraFixUtil.new("Frame",
+          cornerGlow = __AuraFixUtil.new("Frame",
         {Name = "AuraCornerGlow01",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.035, 0.070),
@@ -3075,7 +3075,7 @@ do
 end
 
 do
-    local cornerGlow = __AuraFixUtil.new("Frame",
+          cornerGlow = __AuraFixUtil.new("Frame",
         {Name = "AuraCornerGlow02",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.965, 0.070),
@@ -3106,7 +3106,7 @@ do
 end
 
 do
-    local cornerGlow = __AuraFixUtil.new("Frame",
+          cornerGlow = __AuraFixUtil.new("Frame",
         {Name = "AuraCornerGlow03",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.035, 0.930),
@@ -3137,7 +3137,7 @@ do
 end
 
 do
-    local cornerGlow = __AuraFixUtil.new("Frame",
+          cornerGlow = __AuraFixUtil.new("Frame",
         {Name = "AuraCornerGlow04",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.965, 0.930),
@@ -3168,7 +3168,7 @@ do
 end
 
 do
-    local cornerGlow = __AuraFixUtil.new("Frame",
+          cornerGlow = __AuraFixUtil.new("Frame",
         {Name = "AuraCornerGlow05",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.035, 0.150),
@@ -3199,7 +3199,7 @@ do
 end
 
 do
-    local cornerGlow = __AuraFixUtil.new("Frame",
+          cornerGlow = __AuraFixUtil.new("Frame",
         {Name = "AuraCornerGlow06",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.965, 0.150),
@@ -3230,7 +3230,7 @@ do
 end
 
 do
-    local cornerGlow = __AuraFixUtil.new("Frame",
+          cornerGlow = __AuraFixUtil.new("Frame",
         {Name = "AuraCornerGlow07",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.035, 0.850),
@@ -3261,7 +3261,7 @@ do
 end
 
 do
-    local cornerGlow = __AuraFixUtil.new("Frame",
+          cornerGlow = __AuraFixUtil.new("Frame",
         {Name = "AuraCornerGlow08",
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.fromScale(0.965, 0.850),
@@ -3291,14 +3291,14 @@ do
     end
 end
 
-local top = __AuraFixUtil.new("Frame",
+      top = __AuraFixUtil.new("Frame",
     {Size = UDim2.new(1,
     0,
     0,
     TOP),
     BackgroundColor3 = C.bar},
     main)
-local title = __AuraFixUtil.lbl(top,
+      title = __AuraFixUtil.lbl(top,
     "AURA",
     16,
     WHITE,
@@ -3319,7 +3319,7 @@ __AuraFixUtil.loop(__AuraFixUtil.grad(title,
     {Offset = Vector2.new(.5,
     0)},
     1.8)
-local line = __AuraFixUtil.new("Frame",
+      line = __AuraFixUtil.new("Frame",
     {Position = UDim2.new(0,
     0,
     1,
@@ -3345,8 +3345,8 @@ __AuraFixUtil.loop(__AuraFixUtil.new("UIGradient",
     0)},
     2.2)
 
-local mini = {}
-local miniF = __AuraFixUtil.new("Frame",
+      mini = {}
+      miniF = __AuraFixUtil.new("Frame",
     {BackgroundTransparency = 1,
     AnchorPoint = Vector2.new(1,
     .5),
@@ -3358,7 +3358,7 @@ local miniF = __AuraFixUtil.new("Frame",
     12)},
     top)
 for k = 1, 3 do
-	local b = __AuraFixUtil.new("Frame",
+	      b = __AuraFixUtil.new("Frame",
 	    {AnchorPoint = Vector2.new(0,
 	    1),
 	    Position = UDim2.new(0,
@@ -3397,7 +3397,7 @@ function __AuraFixUtil.topBtn(txt,
 	    6); __AuraFixUtil.press(b)
 	return b
 end
-local closeB, colB = __AuraFixUtil.topBtn("×",
+      closeB, colB = __AuraFixUtil.topBtn("×",
     1), __AuraFixUtil.topBtn("–",
     2)
 cn(closeB.MouseEnter,
@@ -3417,7 +3417,7 @@ __AuraFixUtil.drag(top,
     0,
     H - 40 end)
 
-local side = __AuraFixUtil.new("Frame",
+      side = __AuraFixUtil.new("Frame",
     {Position = UDim2.fromOffset(6,
     TOP + 8),
     Size = UDim2.new(0,
@@ -3426,7 +3426,7 @@ local side = __AuraFixUtil.new("Frame",
     -TOP - 14),
     BackgroundTransparency = 1},
     main)
-local sideDivider = __AuraFixUtil.new("Frame",
+      sideDivider = __AuraFixUtil.new("Frame",
     {Position = UDim2.fromOffset(SB + 7,
     TOP + 14),
     Size = UDim2.new(0,
@@ -3436,9 +3436,9 @@ local sideDivider = __AuraFixUtil.new("Frame",
     BackgroundColor3 = WHITE,
     BackgroundTransparency = .92},
     main)
-local CPOS = UDim2.fromOffset(SB + 12,
+      CPOS = UDim2.fromOffset(SB + 12,
     TOP + 8)
-local content = __AuraFixUtil.new("CanvasGroup",
+      content = __AuraFixUtil.new("CanvasGroup",
     {Position = CPOS,
     Size = UDim2.new(1,
     -SB - 18,
@@ -3446,10 +3446,10 @@ local content = __AuraFixUtil.new("CanvasGroup",
     -TOP - 14),
     BackgroundTransparency = 1},
     main)
-local isCollapsed, collapseToken = false, 0
-local fullMainSize = UDim2.fromScale(1,
+      isCollapsed, collapseToken = false, 0
+      fullMainSize = UDim2.fromScale(1,
     1)
-local collapsedMainSize = UDim2.new(1,
+      collapsedMainSize = UDim2.new(1,
     0,
     0,
     TOP)
@@ -3522,7 +3522,7 @@ cn(closeB.Activated,
     function() __AuraFixUtil.setOpen(false) end)
 
 -- The minus button minimizes the window to its title bar; it does not close it.
-local function setCollapsed(value)
+      function setCollapsed(value)
     if isCollapsed == value then return end
     isCollapsed = value
     collapseToken += 1
@@ -3570,7 +3570,7 @@ cn(colB.Activated,
     setCollapsed(not isCollapsed)
 end)
 
-local fab = __AuraFixUtil.new("TextButton",
+      fab = __AuraFixUtil.new("TextButton",
     {Text = "A",
     Font = Enum.Font.GothamBlack,
     TextSize = 20,
@@ -3587,14 +3587,14 @@ __AuraFixUtil.round(fab,
     23); __AuraFixUtil.acc(fab,
     "BackgroundColor3"); __AuraFixUtil.press(fab,
     true)
-local fs = __AuraFixUtil.stroke(fab,
+      fs = __AuraFixUtil.stroke(fab,
     2,
     accent,
     .5); __AuraFixUtil.acc(fs,
     "Color")
 __AuraFixUtil.trackMotionLoop(fs, 1.4,
     {Thickness = 6, Transparency = .9}, EASE.Sine, DIR.InOut, -1, true)
-local fabDrag = __AuraFixUtil.drag(fab,
+      fabDrag = __AuraFixUtil.drag(fab,
     fab,
     function(W,
     H) return 0,
@@ -3611,7 +3611,7 @@ cn(fab.Activated,
 	    EASE.Back)
 end)
 
-local cols = {Color3.fromRGB(130,
+      cols = {Color3.fromRGB(130,
     100,
     255),
     Color3.fromRGB(0,
@@ -3629,7 +3629,7 @@ local cols = {Color3.fromRGB(130,
     Color3.fromRGB(255,
     75,
     85)}
-local swb = {}
+      swb = {}
 function __AuraFixUtil.mark(idx)
 	for k, b in pairs(swb) do tw(b.S,
 	    {Transparency = k == idx and 0 or 1},
@@ -4164,7 +4164,7 @@ function __AuraFixUtil.segment(p,
 	return obj
 end
 
-local pages, order = {}, {"Музыка",
+      pages, order = {}, {"Музыка",
     "Эффекты",
     "Визуал",
     "Разное",
@@ -4204,26 +4204,26 @@ function __AuraFixUtil.fmtT(s) s = math.floor(s); return string.format("%d:%02d"
     s // 60,
     s % 60) end
 
-local sound = __AuraFixUtil.new("Sound",
+      sound = __AuraFixUtil.new("Sound",
     {Name = "AuraSound",
     Volume = 1},
     SoundService)
-local pitch = __AuraFixUtil.new("PitchShiftSoundEffect",
+      pitch = __AuraFixUtil.new("PitchShiftSoundEffect",
     {Octave = 1,
     Enabled = false},
     sound)
-local eq = __AuraFixUtil.new("EqualizerSoundEffect",
+      eq = __AuraFixUtil.new("EqualizerSoundEffect",
     {LowGain = 0,
     MidGain = 0,
     HighGain = 0},
     sound)
-local reverb = __AuraFixUtil.new("ReverbSoundEffect",
+      reverb = __AuraFixUtil.new("ReverbSoundEffect",
     {Enabled = false,
     DecayTime = 2.8,
     DryLevel = -2,
     WetLevel = -4},
     sound)
-local echo = __AuraFixUtil.new("EchoSoundEffect",
+      echo = __AuraFixUtil.new("EchoSoundEffect",
     {Enabled = false,
     Delay = .35,
     Feedback = .45,
@@ -4231,7 +4231,7 @@ local echo = __AuraFixUtil.new("EchoSoundEffect",
     WetLevel = -6},
     sound)
 
-local S = {speed = 1,
+      S = {speed = 1,
     semi = 0,
     tape = true,
     db = 0}
@@ -4247,15 +4247,15 @@ function __AuraFixUtil.applyAudio()
 	    10)
 end
 
-local nameL, statusL, histBox, box, play
-local history, playTok = {}, 0
-local knownTitles = {}
-local queueItems = {}
-local queueList, queueStatus
-local queueAutoPlay = true
-local visualizerStyle = 1
-local musicAccentPulse = true
-local touched, trackOK, endedF = false, false, false
+      nameL, statusL, histBox, box, play = nil, nil, nil, nil, nil
+      history, playTok = {}, 0
+      knownTitles = {}
+      queueItems = {}
+      queueList, queueStatus = nil, nil
+      queueAutoPlay = true
+      visualizerStyle = 1
+      musicAccentPulse = true
+      touched, trackOK, endedF = false, false, false
 function __AuraFixUtil.setStatus(t,
     col)
 	statusL.Text = t
@@ -4370,7 +4370,7 @@ function play(raw)
     end)
 end
 
-local V = {
+      V = {
 	hl = true,
 	    skel = false,
 	    names = true,
@@ -4392,8 +4392,8 @@ local V = {
 	pulse = true,
 	cornerBox = false,
 }
-local esp = {}
-local espAny, espWas = true, false
+      esp = {}
+      espAny, espWas = true, false
 function __AuraFixUtil.refresh()
 	-- Team filtering only changes which players are eligible; it is not a draw mode by itself.
 	espAny = V.hl or V.skel or V.names or V.username or V.dist or V.box or V.health or V.tracers or V.healthText
@@ -4969,10 +4969,10 @@ cn(Players.PlayerAdded,
 cn(Players.PlayerRemoving,
     __AuraFixUtil.detach)
 
-local afkOn, rejoinOn, rejoining = true, false, false
-local sleepTimerToken, sleepTimerDeadline = 0, nil
-local fovT, fovOn = 70, false
-local fovOriginal = nil
+      afkOn, rejoinOn, rejoining = true, false, false
+      sleepTimerToken, sleepTimerDeadline = 0, nil
+      fovT, fovOn = 70, false
+      fovOriginal = nil
 cn(lp.Idled,
     function()
 	if afkOn and okVU and VU then
@@ -5004,7 +5004,7 @@ cn(TeleportService.TeleportInitFailed,
 	    lp) end) end) end
 end)
 
-local fpsAura = __AuraFixUtil.new("Frame",
+      fpsAura = __AuraFixUtil.new("Frame",
     {Size = UDim2.fromOffset(120,
     34),
     Position = UDim2.new(1,
@@ -5018,10 +5018,10 @@ local fpsAura = __AuraFixUtil.new("Frame",
     gui)
 __AuraFixUtil.round(fpsAura,
     17)
-local fpsAuraScale = __AuraFixUtil.new("UIScale",
+      fpsAuraScale = __AuraFixUtil.new("UIScale",
     {Scale = .88},
     fpsAura)
-local fpsF = __AuraFixUtil.new("Frame",
+      fpsF = __AuraFixUtil.new("Frame",
     {Size = UDim2.fromOffset(112,
     26),
     Position = UDim2.new(1,
@@ -5034,11 +5034,11 @@ local fpsF = __AuraFixUtil.new("Frame",
     gui)
 __AuraFixUtil.round(fpsF,
     13)
-local fpsStroke = __AuraFixUtil.stroke(fpsF,
+      fpsStroke = __AuraFixUtil.stroke(fpsF,
     1.2,
     accent,
     .38)
-local fpsGradient = __AuraFixUtil.new("UIGradient",
+      fpsGradient = __AuraFixUtil.new("UIGradient",
     {Rotation = 0,
     Color = ColorSequence.new({ColorSequenceKeypoint.new(0,
     C.bar),
@@ -5053,10 +5053,10 @@ __AuraFixUtil.loop(fpsGradient,
     {Offset = Vector2.new(1,
     0)},
     2.7)
-local fpsS = __AuraFixUtil.new("UIScale",
+      fpsS = __AuraFixUtil.new("UIScale",
     {Scale = .01},
     fpsF)
-local fpsD = __AuraFixUtil.new("Frame",
+      fpsD = __AuraFixUtil.new("Frame",
     {AnchorPoint = Vector2.new(0,
     .5),
     Position = UDim2.new(0,
@@ -5070,7 +5070,7 @@ local fpsD = __AuraFixUtil.new("Frame",
     fpsF)
 __AuraFixUtil.round(fpsD,
     4)
-local fpsL = __AuraFixUtil.new("TextLabel",
+      fpsL = __AuraFixUtil.new("TextLabel",
     {BackgroundTransparency = 1,
     Position = UDim2.fromOffset(24,
     0),
@@ -5137,9 +5137,9 @@ function __AuraFixUtil.showFps(v)
 		    function() if not V.fps then fpsF.Visible = false; fpsAura.Visible = false end end)
 	end
 end
-local fpsA, fpsN = 0, 0
+      fpsA, fpsN = 0, 0
 
-local envCleanup
+      envCleanup = nil
 function __AuraFixUtil.unload()
     sleepTimerToken += 1
     sleepTimerDeadline = nil
@@ -5167,7 +5167,7 @@ function __AuraFixUtil.unload()
 end
 genv.AuraUnload = __AuraFixUtil.unload
 
-local spd, tapeT, semi, vol, bassS, midS, trebS, reverbT, echoT, prog, pauseB, reverbDecayS, reverbWetS, echoDelayS, echoFeedbackS
+      spd, tapeT, semi, vol, bassS, midS, trebS, reverbT, echoT, prog, pauseB, reverbDecayS, reverbWetS, echoDelayS, echoFeedbackS = nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
 function __AuraFixUtil.resetAll()
 	spd.Set(1); tapeT.Set(true); semi.Set(0); vol.Set(0)
 	bassS.Set(0); midS.Set(0); trebS.Set(0); reverbT.Set(false); echoT.Set(false)
@@ -5283,7 +5283,7 @@ __AuraFixUtil.new("UIGradient",
     __AuraFix_vinyl)
 for _, d in ipairs({36,
     28}) do
-	local g = __AuraFixUtil.new("Frame",
+	      g = __AuraFixUtil.new("Frame",
 	    {AnchorPoint = Vector2.new(.5,
 	    .5),
 	    Position = UDim2.fromScale(.5,
@@ -5590,7 +5590,7 @@ __AuraFixUtil.button(__AuraFix_queueActions,
     false,
     UDim2.new(.5, -3, 1, 0))
 
-local sleepMinutes = math.clamp(tonumber(cfg.sleepMinutes) or 30, 5, 120)
+      sleepMinutes = math.clamp(tonumber(cfg.sleepMinutes) or 30, 5, 120)
 __AuraFix_sleepCard = __AuraFixUtil.card(__AuraFix_pg, 34)
 __AuraFix_sleepStatus = __AuraFixUtil.lbl(__AuraFix_sleepCard,
     "Таймер остановки: не активен", 11, C.sub,
@@ -5647,7 +5647,7 @@ __AuraFix_vc = __AuraFixUtil.card(__AuraFix_pg,
     56)
 __AuraFix_bars = {}
 for n = 1, 28 do
-	local b = __AuraFixUtil.new("Frame",
+	      b = __AuraFixUtil.new("Frame",
 	    {BackgroundColor3 = WHITE,
 	    AnchorPoint = Vector2.new(0,
 	    1),
@@ -5667,7 +5667,7 @@ for n = 1, 28 do
 	    .4),
 	    accent) end,
 	    {Rotation = 90})
-	local cap = __AuraFixUtil.new("Frame",
+	      cap = __AuraFixUtil.new("Frame",
 	    {AnchorPoint = Vector2.new(0,
 	    1),
 	    Position = UDim2.new((n - 1) / 28,
@@ -6036,7 +6036,7 @@ __AuraFix_envDOF.FocusDistance = 50
 __AuraFix_envDOF.InFocusRadius = 50
 __AuraFix_envDOF.Parent = Lighting
 
-local envLightingBase = {
+      envLightingBase = {
     Brightness = Lighting.Brightness,
         ClockTime = Lighting.ClockTime,
         Ambient = Lighting.Ambient,
@@ -6047,8 +6047,8 @@ local envLightingBase = {
         FogStart = Lighting.FogStart,
         FogEnd = Lighting.FogEnd,
 }
-local envAtmo = Lighting:FindFirstChildOfClass("Atmosphere")
-local envCreatedAtmo = envAtmo == nil
+      envAtmo = Lighting:FindFirstChildOfClass("Atmosphere")
+      envCreatedAtmo = envAtmo == nil
 if not envAtmo then
     envAtmo = Instance.new("Atmosphere")
     envAtmo.Name = "AuraEnvAtmosphere"
@@ -6060,7 +6060,7 @@ if not envAtmo then
     envAtmo.Decay = WHITE
     envAtmo.Parent = Lighting
 end
-local envAtmoBase = {
+      envAtmoBase = {
     Density = envAtmo.Density,
         Offset = envAtmo.Offset,
         Haze = envAtmo.Haze,
@@ -6068,20 +6068,20 @@ local envAtmoBase = {
         Color = envAtmo.Color,
         Decay = envAtmo.Decay,
 }
-local envTerrain = workspace:FindFirstChildOfClass("Terrain") or workspace.Terrain
-local envOriginalSkies = {}
+      envTerrain = workspace:FindFirstChildOfClass("Terrain") or workspace.Terrain
+      envOriginalSkies = {}
 for _, object in ipairs(Lighting:GetChildren()) do
     if object:IsA("Sky") and object.Name ~= "AuraEnvSky" then envOriginalSkies[#envOriginalSkies + 1] = object end
 end
-local envSky = Instance.new("Sky")
+      envSky = Instance.new("Sky")
 envSky.Name = "AuraEnvSky"
 envSky.CelestialBodiesShown = true
 envSky.StarCount = 3000
 envSky.SunAngularSize = 12
 envSky.MoonAngularSize = 11
-local envSkyIsActive = false
-local envClouds = envTerrain:FindFirstChildOfClass("Clouds")
-local envCreatedClouds = envClouds == nil
+      envSkyIsActive = false
+      envClouds = envTerrain:FindFirstChildOfClass("Clouds")
+      envCreatedClouds = envClouds == nil
 if not envClouds then
     envClouds = Instance.new("Clouds")
     envClouds.Name = "AuraEnvClouds"
@@ -6089,7 +6089,7 @@ if not envClouds then
     envClouds.Density = 0
     envClouds.Color = WHITE
 end
-local envCloudBase = {Cover = envClouds.Cover,
+      envCloudBase = {Cover = envClouds.Cover,
     Density = envClouds.Density,
     Color = envClouds.Color}
 envCleanup = function()
@@ -6124,18 +6124,18 @@ envCleanup = function()
     end
 end
 
-local envPreset = math.clamp(math.floor(tonumber(cfg.envPreset) or 0),
+      envPreset = math.clamp(math.floor(tonumber(cfg.envPreset) or 0),
     0,
     6)
-local envOn = cfg.envBloom == true
-local envStrength = math.clamp(tonumber(cfg.envBloomStrength) or 60,
+      envOn = cfg.envBloom == true
+      envStrength = math.clamp(tonumber(cfg.envBloomStrength) or 60,
     0,
     100)
-local envBaseBloom, envPhase, envTick, envApplyToken = .32, 0, 0, 0
-local envButtons = {}
+      envBaseBloom, envPhase, envTick, envApplyToken = .32, 0, 0, 0
+      envButtons = {}
 -- Skybox texture references adapted from a public GitHub example; no remote code is executed.
 -- https://gist.github.com/dexexisted-alt/655b8fc9323571ef7d46ef55eb66dc38
-local envSkySets = {
+      envSkySets = {
     [1] = {Bk = "rbxassetid://271042516",
         Dn = "rbxassetid://271077243",
         Ft = "rbxassetid://271042556",
@@ -6155,7 +6155,7 @@ local envSkySets = {
         Rt = "rbxassetid://159454299",
         Up = "rbxassetid://159454299"},
 }
-local envPresets = {
+      envPresets = {
     [0] = {name = "Исходный вид",
         clockTime = envLightingBase.ClockTime,
         lightBrightness = envLightingBase.Brightness,
@@ -6945,7 +6945,7 @@ __AuraFixUtil.new("UIListLayout",
     10)},
     __AuraFix_swc)
 for k, col in ipairs(cols) do
-	local b = __AuraFixUtil.new("TextButton",
+	      b = __AuraFixUtil.new("TextButton",
 	    {Text = "",
 	    AutoButtonColor = false,
 	    BackgroundColor3 = col,
@@ -7004,7 +7004,7 @@ cn(__AuraFix_rb.Activated,
 	__AuraFixUtil.toast(rainbow and "Радужный режим" or "Радуга выключена")
 end)
 do
-	local sel = 0
+	      sel = 0
 	for k, c in ipairs(cols) do
 		if (c.R - accent.R) ^ 2 + (c.G - accent.G) ^ 2 + (c.B - accent.B) ^ 2 < 1e-4 then sel = k end
 	end
@@ -7371,7 +7371,7 @@ __AuraFix_tabGlyphs = { ["Музыка"] = "♫",
     ["Разное"] = "◌",
     ["Настройки"] = "⚙" }
 for i, name in ipairs(order) do
-	local b = __AuraFixUtil.new("TextButton",
+	      b = __AuraFixUtil.new("TextButton",
 	    {Font = Enum.Font.GothamBold,
 	    TextSize = 12,
 	    TextColor3 = C.sub,
@@ -7391,7 +7391,7 @@ for i, name in ipairs(order) do
 	    {PaddingLeft = UDim.new(0,
 	    31)},
 	    b)
-	local glyph = __AuraFixUtil.new("TextLabel",
+	      glyph = __AuraFixUtil.new("TextLabel",
 	    {BackgroundTransparency = 1,
 	    Font = Enum.Font.GothamBold,
 	    TextSize = 16,
@@ -7456,7 +7456,7 @@ cn(UIS.InputBegan,
 end)
 
 __AuraFix_spinV = 0
-local espUpdateAccumulator, espErrorToastAt = 0, 0
+      espUpdateAccumulator, espErrorToastAt = 0, 0
 RS:BindToRenderStep("AuraMenuLoop",
     Enum.RenderPriority.Camera.Value + 1,
     function(dt)
@@ -7653,7 +7653,7 @@ RS:BindToRenderStep("AuraMenuLoop",
 	end
 end)
 
-local __AuraSignatureThemes = {
+      __AuraSignatureThemes = {
     {
         name = 'Aquamarine Glass',
         accent = Color3.fromRGB(255, 97, 97),
@@ -9932,7 +9932,7 @@ local __AuraSignatureThemes = {
 
 __AuraFixUtil.section(__AuraFix_ps, "AURA SIGNATURE THEMES")
 
-local __AuraThemePaletteKeys = {
+      __AuraThemePaletteKeys = {
     "bg",
     "bar",
     "card",
@@ -9948,19 +9948,19 @@ local __AuraThemePaletteKeys = {
     "softBlue",
 }
 
-local __AuraThemeIndex = math.clamp(
+      __AuraThemeIndex = math.clamp(
     math.floor(tonumber(cfg.themeIndex) or 0),
     0,
     #__AuraSignatureThemes
 )
 
-local __AuraThemeCard, __AuraThemeCardStroke = __AuraFixUtil.card(
+      __AuraThemeCard, __AuraThemeCardStroke = __AuraFixUtil.card(
     __AuraFix_ps,
     72
 )
 __AuraThemeCard.Name = "AuraSignatureThemeCard"
 
-local __AuraThemeTitle = __AuraFixUtil.lbl(
+      __AuraThemeTitle = __AuraFixUtil.lbl(
     __AuraThemeCard,
     "ПАЛИТРА AURA",
     12,
@@ -9973,7 +9973,7 @@ local __AuraThemeTitle = __AuraFixUtil.lbl(
     }
 )
 
-local __AuraThemeName = __AuraFixUtil.lbl(
+      __AuraThemeName = __AuraFixUtil.lbl(
     __AuraThemeCard,
     "Своя палитра",
     12,
@@ -9986,7 +9986,7 @@ local __AuraThemeName = __AuraFixUtil.lbl(
     }
 )
 
-local __AuraThemeCounter = __AuraFixUtil.lbl(
+      __AuraThemeCounter = __AuraFixUtil.lbl(
     __AuraThemeCard,
     "CUSTOM",
     10,
@@ -10000,7 +10000,7 @@ local __AuraThemeCounter = __AuraFixUtil.lbl(
     }
 )
 
-local __AuraThemeSwatch = __AuraFixUtil.new(
+      __AuraThemeSwatch = __AuraFixUtil.new(
     "Frame",
     {
         Name = "AuraThemeSwatch",
@@ -10013,7 +10013,7 @@ local __AuraThemeSwatch = __AuraFixUtil.new(
 )
 __AuraFixUtil.round(__AuraThemeSwatch, 3)
 
-local __AuraThemeSwatchGradient = __AuraFixUtil.new(
+      __AuraThemeSwatchGradient = __AuraFixUtil.new(
     "UIGradient",
     {
         Rotation = 0,
@@ -10026,25 +10026,25 @@ local __AuraThemeSwatchGradient = __AuraFixUtil.new(
     __AuraThemeSwatch
 )
 
-local __AuraThemeButtonRow = __AuraFixUtil.row(
+      __AuraThemeButtonRow = __AuraFixUtil.row(
     __AuraFix_ps,
     32
 )
-local __AuraThemePrevious = __AuraFixUtil.button(
+      __AuraThemePrevious = __AuraFixUtil.button(
     __AuraThemeButtonRow,
     "‹ Назад",
     nil,
     false,
     UDim2.new(0.333, -4, 1, 0)
 )
-local __AuraThemeApplyButton = __AuraFixUtil.button(
+      __AuraThemeApplyButton = __AuraFixUtil.button(
     __AuraThemeButtonRow,
     "Применить",
     nil,
     true,
     UDim2.new(0.334, -4, 1, 0)
 )
-local __AuraThemeNext = __AuraFixUtil.button(
+      __AuraThemeNext = __AuraFixUtil.button(
     __AuraThemeButtonRow,
     "Далее ›",
     nil,
@@ -10052,7 +10052,7 @@ local __AuraThemeNext = __AuraFixUtil.button(
     UDim2.new(0.333, -4, 1, 0)
 )
 
-local __AuraThemeEdge = __AuraFixUtil.new(
+      __AuraThemeEdge = __AuraFixUtil.new(
     "Frame",
     {
         Name = "AuraThemeEdge",
@@ -10066,7 +10066,7 @@ local __AuraThemeEdge = __AuraFixUtil.new(
     main
 )
 
-local __AuraThemeEdgeGradient = __AuraFixUtil.new(
+      __AuraThemeEdgeGradient = __AuraFixUtil.new(
     "UIGradient",
     {
         Rotation = 0,
@@ -10081,7 +10081,7 @@ local __AuraThemeEdgeGradient = __AuraFixUtil.new(
     __AuraThemeEdge
 )
 
-local __AuraThemeSweep = __AuraFixUtil.new(
+      __AuraThemeSweep = __AuraFixUtil.new(
     "Frame",
     {
         Name = "AuraThemeSweep",
@@ -10095,7 +10095,7 @@ local __AuraThemeSweep = __AuraFixUtil.new(
     __AuraThemeEdge
 )
 
-local __AuraThemeSweepGradient = __AuraFixUtil.new(
+      __AuraThemeSweepGradient = __AuraFixUtil.new(
     "UIGradient",
     {
         Rotation = 0,
@@ -10108,7 +10108,7 @@ local __AuraThemeSweepGradient = __AuraFixUtil.new(
     __AuraThemeSweep
 )
 
-local __AuraThemeSweepMotion = __AuraFixUtil.trackMotionLoop(
+      __AuraThemeSweepMotion = __AuraFixUtil.trackMotionLoop(
     __AuraThemeSweep,
     1.6,
     {Position = UDim2.new(1.18, 0, 0, 0)},
@@ -10118,9 +10118,9 @@ local __AuraThemeSweepMotion = __AuraFixUtil.trackMotionLoop(
     true
 )
 
-local __AuraThemeSpecks = {}
+      __AuraThemeSpecks = {}
 for __auraSpeckIndex = 1, 12 do
-    local __auraSpeck = __AuraFixUtil.new(
+          __auraSpeck = __AuraFixUtil.new(
         "Frame",
         {
             Name = "AuraThemeSpeck_" .. tostring(__auraSpeckIndex),
@@ -10147,18 +10147,18 @@ for __auraSpeckIndex = 1, 12 do
     __AuraThemeSpecks[#__AuraThemeSpecks + 1] = __auraSpeck
 end
 
-local __AuraThemeGlowPct = math.clamp(
+      __AuraThemeGlowPct = math.clamp(
     tonumber(cfg.themeGlowPct) or 58,
     0,
     100
 )
-local __AuraThemeSpeckCount = math.clamp(
+      __AuraThemeSpeckCount = math.clamp(
     math.floor(tonumber(cfg.themeSpecks) or 7),
     0,
     #__AuraThemeSpecks
 )
 
-local function __AuraThemeRefreshHeader(profile)
+      function __AuraThemeRefreshHeader(profile)
     local glowValue = __AuraThemeGlowPct / 100
     __AuraThemeEdge.BackgroundTransparency = 1 - math.clamp(glowValue, 0, 1)
     __AuraThemeEdge.BackgroundColor3 = accent
@@ -10195,7 +10195,7 @@ local function __AuraThemeRefreshHeader(profile)
     end
 end
 
-local function __AuraThemeApply(index, quiet)
+      function __AuraThemeApply(index, quiet)
     index = math.clamp(math.floor(tonumber(index) or 0), 0, #__AuraSignatureThemes)
     if index == 0 then
         __AuraThemeIndex = 0
@@ -10419,8 +10419,8 @@ if __AuraThemeIndex > 0 then
 end
 
 -- Responsive sizing for rotation, split-screen, and phone viewport changes.
-local __AuraViewportToken = 0
-local function __AuraRefreshViewport()
+      __AuraViewportToken = 0
+      function __AuraRefreshViewport()
     __AuraViewportToken += 1
     local currentToken = __AuraViewportToken
     task.defer(function()
@@ -10468,8 +10468,8 @@ if workspace.CurrentCamera then
 end
 
 -- Small, deterministic pointer feedback keeps tap targets legible without adding heavy loops.
-local __AuraTouchPulse = setmetatable({}, {__mode = "k"})
-local function __AuraAttachTouchFeedback(object)
+      __AuraTouchPulse = setmetatable({}, {__mode = "k"})
+      function __AuraAttachTouchFeedback(object)
     if not object or not object:IsA("GuiButton") or __AuraTouchPulse[object] then
         return
     end
